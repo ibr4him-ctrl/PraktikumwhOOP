@@ -13,6 +13,12 @@ public class Movie implements Playable, Downloadable {
     // - String genre (genre film)
     // - boolean isPlaying (status pemutaran)
     // - int downloadProgress (progress download 0-100)
+    private String title;
+    private int duration;
+    private long fileSize;
+    private String genre;
+    private boolean isPlaying;
+    private int downloadProgress;
 
     // TODO: Buat constructor yang menerima title, duration, fileSize, dan genre
     /**
@@ -24,7 +30,20 @@ public class Movie implements Playable, Downloadable {
      * @param fileSize ukuran file dasar dalam bytes
      * @param genre genre film ("Premium" akan menggandakan ukuran file)
      */
+    public Movie (String title, int duration, long fileSize, String genre) {
+        this.title = title;
+        this.duration = duration;
+        this.fileSize = fileSize;
+        this.genre = genre;
+        this.isPlaying= false;
+        this.downloadProgress = 0;
 
+        if ("Premium".equalsIgnoreCase(genre)) {
+            this.fileSize = fileSize * 2;
+        } else {
+            this.fileSize = fileSize;
+        }
+    }
     // TODO: Implementasikan semua method dari interface Playable
 
     /**
@@ -34,6 +53,8 @@ public class Movie implements Playable, Downloadable {
      */
     @Override
     public void play() {
+        System.out.println("Memutar film: " +this.title);
+        this.isPlaying = true;
     }
 
     /**
@@ -43,6 +64,8 @@ public class Movie implements Playable, Downloadable {
      */
     @Override
     public void pause() {
+        System.out.println("Film " + this.title + " dijeda");
+        this.isPlaying = false;
     }
 
     /**
@@ -52,6 +75,8 @@ public class Movie implements Playable, Downloadable {
      */
     @Override
     public void stop() {
+        System.out.println("Film "+this.title+" dihentikan");
+        this.isPlaying = false;
     }
 
     /**
@@ -60,6 +85,7 @@ public class Movie implements Playable, Downloadable {
      */
     @Override
     public int getDuration() {
+        return this.duration;
     }
 
     /**
@@ -68,6 +94,7 @@ public class Movie implements Playable, Downloadable {
      */
     @Override
     public String getTitle() {
+        return this.title;
     }
 
     /**
@@ -76,6 +103,7 @@ public class Movie implements Playable, Downloadable {
      */
     @Override
     public boolean isPlaying() {
+        return this.isPlaying;
     }
 
     // TODO: Implementasikan semua method dari interface Downloadable
@@ -88,6 +116,9 @@ public class Movie implements Playable, Downloadable {
      */
     @Override
     public boolean startDownload() {
+        System.out.println("Memulai download film: "+this.title);
+        this.downloadProgress = 0;
+        return true;
     }
 
     /**
@@ -97,6 +128,8 @@ public class Movie implements Playable, Downloadable {
      */
     @Override
     public int getDownloadProgress() {
+        downloadProgress = Math.min(100, downloadProgress + 5);
+        return downloadProgress;
     }
 
     /**
@@ -106,6 +139,8 @@ public class Movie implements Playable, Downloadable {
      */
     @Override
     public void cancelDownload() {
+        this.downloadProgress = 0;
+        System.out.println("Download film "+ this.title + "dibatalkan");
     }
 
     /**
@@ -115,6 +150,10 @@ public class Movie implements Playable, Downloadable {
      */
     @Override
     public long getFileSize() {
+        if ("Premium".equalsIgnoreCase(genre)) {
+            return this.fileSize * 2;
+        }
+        return this.fileSize;
     }
 
     /**
@@ -123,6 +162,7 @@ public class Movie implements Playable, Downloadable {
      */
     @Override
     public boolean isDownloadComplete() {
+        return this.downloadProgress >= 100;
     }
 
     /**
@@ -132,6 +172,8 @@ public class Movie implements Playable, Downloadable {
      */
     @Override
     public String getDownloadPath() {
+        String titleBaru = title.replace(" ", "_");
+        return "/downloads/movies/" + titleBaru + ".mp4";
     }
 
     // TODO: Buat method tambahan getGenre() untuk mendapatkan genre film
@@ -140,5 +182,6 @@ public class Movie implements Playable, Downloadable {
      * @return genre film
      */
     public String getGenre() {
+        return genre;
     }
 }
