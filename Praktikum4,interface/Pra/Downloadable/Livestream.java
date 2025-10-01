@@ -8,6 +8,13 @@ public class LiveStream implements Playable {
     // - boolean isPlaying (status pemutaran)
     // - int updateCounter (counter untuk update viewer count)
 
+    private int updateCounter;
+    private boolean isPlaying;
+    private boolean isLive;
+    private int viewerCount;
+    private String streamerName;
+    private String title;
+
     // TODO: Buat constructor yang menerima title, streamerName, viewerCount, dan
     // isLive
     /**
@@ -20,6 +27,12 @@ public class LiveStream implements Playable {
      * @param isLive       status apakah sedang live
      */
     public LiveStream(String title, String streamerName, int viewerCount, boolean isLive) {
+        this.title = title;
+        this.streamerName = streamerName;
+        this.viewerCount = viewerCount;
+        this.isLive = isLive;
+        this.isPlaying = false;
+        this.updateCounter = 0;
     }
 
     // TODO: Implementasikan semua method dari interface Playable
@@ -37,6 +50,14 @@ public class LiveStream implements Playable {
      */
     @Override
     public void play() {
+        if (isLive) {
+            updateViewerCount();
+            System.out.println("Menonton live stream: "+this.title+ " by "+this.streamerName+ " - "+this.viewerCount + "viewers");
+            this.isPlaying = true;
+        } else {
+            System.out.println("Stream sudah berakhir");
+            this.isPlaying = false;
+        }
     }
 
     /**
@@ -45,6 +66,7 @@ public class LiveStream implements Playable {
      */
     @Override
     public void pause() {
+        System.out.println("Live stream tidak bisa dijeda, gunakan stop() untuk keluar");
     }
 
     /**
@@ -55,6 +77,9 @@ public class LiveStream implements Playable {
      */
     @Override
     public void stop() {
+        System.out.println("Keluar dari live stream "+this.title);
+        this.isPlaying = false;
+        this.updateViewerCount();
     }
 
     /**
@@ -64,6 +89,7 @@ public class LiveStream implements Playable {
      */
     @Override
     public int getDuration() {
+        return -1;
     }
 
     /**
@@ -73,6 +99,7 @@ public class LiveStream implements Playable {
      */
     @Override
     public String getTitle() {
+        return this.title;
     }
 
     /**
@@ -82,6 +109,7 @@ public class LiveStream implements Playable {
      */
     @Override
     public boolean isPlaying() {
+        return this.isPlaying;
     }
 
     // TODO: Implementasikan method tambahan khusus untuk LiveStream
@@ -92,6 +120,7 @@ public class LiveStream implements Playable {
      * @return true jika masih live, false jika sudah berakhir
      */
     public boolean isLive() {
+        return this.isLive;
     }
 
     /**
@@ -100,6 +129,7 @@ public class LiveStream implements Playable {
      * @return nama streamer
      */
     public String getStreamerName() {
+        return this.streamerName;
     }
 
     /**
@@ -108,6 +138,7 @@ public class LiveStream implements Playable {
      * @return jumlah penonton
      */
     public int getViewerCount() {
+        return this.viewerCount;
     }
 
     /**
@@ -117,6 +148,10 @@ public class LiveStream implements Playable {
      * Update viewerCount: Math.max(0, viewerCount + change)
      */
     public void updateViewerCount() {
+        this.updateCounter++;
+        int change = (this.updateCounter % 11)- 5;
+        this.viewerCount = Math.max(0, viewerCount + change);
+        
     }
 
     /**
@@ -125,5 +160,8 @@ public class LiveStream implements Playable {
      * Tampilkan: "Live stream [title] telah berakhir"
      */
     public void endStream() {
+        isLive = false;
+        isPlaying = false;
+        System.out.println("Live stream " +this.title+ " telah berakhir");
     }
 }
