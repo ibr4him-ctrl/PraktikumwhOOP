@@ -140,7 +140,7 @@ public class Movie implements Playable, Downloadable {
     @Override
     public void cancelDownload() {
         this.downloadProgress = 0;
-        System.out.println("Download film "+ this.title + "dibatalkan");
+        System.out.println("Download film "+ this.title + " dibatalkan");
     }
 
     /**

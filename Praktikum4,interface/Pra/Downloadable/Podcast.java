@@ -19,7 +19,7 @@ public class Podcast implements Playable, Downloadable {
     private int episodeNumber;
     private boolean isPlaying;
     private int downloadProgress;
-    private long filesize;
+    private long fileSize;
     // TODO: Buat constructor yang menerima title, duration, host, dan episodeNumber
     /**
      * Constructor untuk membuat objek Podcast
@@ -37,11 +37,11 @@ public class Podcast implements Playable, Downloadable {
         this.duration = duration;
         this.host = host;
         this.episodeNumber = episodeNumber;
-        this.filesize = (duration/60) * 1024 * 1024;
+        this.fileSize = (duration/60) * 1024 * 1024;
         this.isPlaying = false;
         this.downloadProgress = 0;
         if (episodeNumber > 100) {
-            this.filesize = (long)(this.filesize * 1.5);
+            this.fileSize = (long)(this.fileSize * 1.5);
         }
     }
     // TODO: Implementasikan semua method dari interface Playable
@@ -115,7 +115,8 @@ public class Podcast implements Playable, Downloadable {
     @Override
     public boolean startDownload() {
         System.out.println("Memulai download podcast: " + this.title + " Episode " + this.episodeNumber);
-        
+        this.downloadProgress = 0;
+        return true;
     }
 
     /**
@@ -137,7 +138,7 @@ public class Podcast implements Playable, Downloadable {
     @Override
     public void cancelDownload() {
         this.downloadProgress = 0;
-        System.out.println("Download podcast "+ this.title + "dibatalkan");
+        System.out.println("Download podcast "+ this.title + " dibatalkan");
     }
 
     /**
@@ -147,6 +148,13 @@ public class Podcast implements Playable, Downloadable {
      */
     @Override
     public long getFileSize() {
+        double sizeInMB = (double) this.duration / 60;
+        if (this.episodeNumber > 100) {
+            sizeInMB *= 1.5;
+        }
+
+        long sizeinBytes = (long) (sizeInMB *1024*1024);
+        return sizeinBytes;
     }
 
     /**
