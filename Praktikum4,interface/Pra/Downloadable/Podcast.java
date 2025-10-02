@@ -13,7 +13,13 @@ public class Podcast implements Playable, Downloadable {
     // - boolean isPlaying (status pemutaran)
     // - int downloadProgress (progress download 0-100)
     // - long fileSize (ukuran file dalam bytes)
-
+    private String title;
+    private int duration;
+    private String host;
+    private int episodeNumber;
+    private boolean isPlaying;
+    private int downloadProgress;
+    private long filesize;
     // TODO: Buat constructor yang menerima title, duration, host, dan episodeNumber
     /**
      * Constructor untuk membuat objek Podcast
@@ -25,7 +31,19 @@ public class Podcast implements Playable, Downloadable {
      * @param host nama host podcast
      * @param episodeNumber nomor episode
      */
-
+    
+    public Podcast(String title, int duration, String host, int episodeNumber){
+        this.title = title;
+        this.duration = duration;
+        this.host = host;
+        this.episodeNumber = episodeNumber;
+        this.filesize = (duration/60) * 1024 * 1024;
+        this.isPlaying = false;
+        this.downloadProgress = 0;
+        if (episodeNumber > 100) {
+            this.filesize = (long)(this.filesize * 1.5);
+        }
+    }
     // TODO: Implementasikan semua method dari interface Playable
 
     /**
@@ -35,6 +53,7 @@ public class Podcast implements Playable, Downloadable {
      */
     @Override
     public void play() {
+        System.out.println("Memutar podcast: "+ this.title + "Episode");
     }
 
     /**
@@ -44,6 +63,8 @@ public class Podcast implements Playable, Downloadable {
      */
     @Override
     public void pause() {
+        System.out.println("Podcast " + this.title + " dijeda");
+
     }
 
     /**
@@ -53,6 +74,7 @@ public class Podcast implements Playable, Downloadable {
      */
     @Override
     public void stop() {
+        System.out.println("Podcast " + this.title + " dihentikan");
     }
 
     /**
@@ -61,6 +83,7 @@ public class Podcast implements Playable, Downloadable {
      */
     @Override
     public int getDuration() {
+        return this.duration;
     }
 
     /**
@@ -69,6 +92,7 @@ public class Podcast implements Playable, Downloadable {
      */
     @Override
     public String getTitle() {
+        return this.title;
     }
 
     /**
@@ -77,6 +101,7 @@ public class Podcast implements Playable, Downloadable {
      */
     @Override
     public boolean isPlaying() {
+        return this.isPlaying;
     }
 
     // TODO: Implementasikan semua method dari interface Downloadable
@@ -89,6 +114,8 @@ public class Podcast implements Playable, Downloadable {
      */
     @Override
     public boolean startDownload() {
+        System.out.println("Memulai download podcast: " + this.title + " Episode " + this.episodeNumber);
+        
     }
 
     /**
@@ -98,6 +125,8 @@ public class Podcast implements Playable, Downloadable {
      */
     @Override
     public int getDownloadProgress() {
+        downloadProgress = Math.min(100, downloadProgress + 10);
+        return downloadProgress;
     }
 
     /**
@@ -107,6 +136,8 @@ public class Podcast implements Playable, Downloadable {
      */
     @Override
     public void cancelDownload() {
+        this.downloadProgress = 0;
+        System.out.println("Download podcast "+ this.title + "dibatalkan");
     }
 
     /**
@@ -124,6 +155,7 @@ public class Podcast implements Playable, Downloadable {
      */
     @Override
     public boolean isDownloadComplete() {
+        return this.downloadProgress >= 100;
     }
 
     /**
@@ -133,6 +165,8 @@ public class Podcast implements Playable, Downloadable {
      */
     @Override
     public String getDownloadPath() {
+        String titleBaru = title.replace(" ", "");
+        return "/downloads/podcasts/" + titleBaru + "ep"+episodeNumber;
     }
 
     // TODO: Buat method tambahan getHost() dan getEpisodeNumber()
@@ -141,6 +175,7 @@ public class Podcast implements Playable, Downloadable {
      * @return nama host
      */
     public String getHost() {
+        return this.host;
     }
 
     /**
@@ -148,5 +183,6 @@ public class Podcast implements Playable, Downloadable {
      * @return nomor episode
      */
     public int getEpisodeNumber() {
+        return this.episodeNumber;
     }
 }
