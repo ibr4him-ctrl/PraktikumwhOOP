@@ -16,7 +16,7 @@ public class Warrior implements PhysicalAttack, StrengthComparable {
     
     @Override
     public void performAttack(){
-        System.out.println(this.name +" mengayukan pedang dengan kuat! memberikan " + this.physicalPower + " damage fisik!");
+        System.out.println(this.name +" mengayunkan pedang dengan kuat! memberikan " + this.physicalPower + " damage fisik!");
     }
 
 

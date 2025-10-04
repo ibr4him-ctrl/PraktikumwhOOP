@@ -17,8 +17,11 @@ public class Paladin implements PhysicalAttack, MagicalAttack, StrengthComparabl
     // Tampilkan: "<name> menyerang dengan pedang dan sihir sekaligus! memberikan <physicalPower> damage fisik dan <magicalPower> damage sihir!"
     
     @Override
-    public void performAttack(){
-        System.out.println(this.name + " menyerang dengan pedang dan sihir sekaligus! memberikan " + this.physicalPower + "damage fisik dan " + this.magicalPower + " damage sihir!");
+    public void performAttack() {
+        System.out.println(this.name
+            + " menyerang dengan pedang dan sihir sekaligus! memberikan "
+            + this.physicalPower + " damage fisik dan "
+            + this.magicalPower + " damage sihir!");
     }
 
     // TODO: Override method getPhysicalPower()
